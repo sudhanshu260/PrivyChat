@@ -1,151 +1,167 @@
-PrivyAI Chat
+🚀 PrivyAI Chat
 
-PrivyAI Chat is an AI-powered, secure messaging platform that features end-to-end encryption (E2EE). This project is a high-performance web application built with React, Vite, and Firebase, designed to ensure that user conversations are both private and safe.
+PrivyAI Chat is an AI-powered, end-to-end encrypted (E2EE) messaging platform built with React, Vite, and Firebase.
+It ensures complete privacy by encrypting all messages before they leave the user’s device—meaning even Firebase only stores unreadable ciphertext.
 
-The server (Firebase) only ever stores encrypted ciphertext, meaning no one—not even the database administrator—can read the messages. All decryption and safety analysis happens securely on the user's own device.
+All decryption and AI safety checks happen locally in the browser, preserving user privacy while still providing intelligent threat detection.
 
-Features
+🔐 Key Features
+🔑 1. End-to-End Encryption (E2EE)
 
-User Authentication: Full login and sign-up capabilities using email and password (via Firebase Auth).
+Encryption & decryption happen inside the browser using AES-GCM.
 
-Secure Room Creation: Generate unique, private chat rooms.
+Secret Key → converted to a strong AES key using PBKDF2.
 
-Join Secure Rooms: Access rooms only with a Room ID and the corresponding Secret Key.
+Firebase never sees plaintext—only encrypted ciphertext is stored.
 
-True End-to-End Encryption (E2EE): All messages are encrypted and decrypted in the browser using the WebCrypto API (AES-GCM). The Secret Key is never stored on the server.
+👤 2. User Authentication
 
-Real-time User Presence: See how many users are currently active in the chat room (Module 5).
+Full sign-up and login system using Firebase Auth (Email + Password).
 
-Client-Side AI Threat Detection: Uses TensorFlow.js to analyze decrypted messages in real-time. The app warns the user of potential toxicity, insults, or threats without the message ever leaving their device for analysis.
+🏠 3. Secure Room Creation
 
-Tech Stack
+Users can create private chat rooms with:
 
-Frontend: React, Vite
+Room ID (public)
 
-Backend & Database: Firebase (Authentication & Firestore)
+Secret Key (private − required for decryption)
 
-Styling: Tailwind CSS
+🔗 4. Join Secure Rooms
 
-Encryption: WebCrypto API (PBKDF2 & AES-GCM)
+Users can only join rooms if they have both:
 
-AI/ML: TensorFlow.js (@tensorflow/tfjs, @tensorflow-models/toxicity)
+The Room ID
 
-Getting Started
+The Secret Key
 
-Follow these instructions to get the project running on your local machine for development and testing.
+👀 5. Real-Time Presence Tracking
 
-Prerequisites
+Shows how many users are currently active in the chat room.
 
-You must have the following software installed:
+🤖 6. Client-Side AI Threat Detection
 
-Node.js and npm: Download Node.js (npm is included)
+Uses TensorFlow.js toxicity model.
 
-A Firebase Account: Create one for free
+Analyzes messages after decryption (locally).
 
-1. Clone & Install
+Warns users about:
 
-First, clone the repository (or download and unzip the files) to your local machine.
+Toxic messages
 
+Insults
+
+Threats
+
+Identity attacks
+
+No decrypted data ever leaves the browser.
+
+🧰 Tech Stack
+Area	Technology
+Frontend	React, Vite
+Backend / DB	Firebase (Auth + Firestore)
+Styling	Tailwind CSS
+Encryption	WebCrypto API – PBKDF2 + AES-GCM
+AI	TensorFlow.js (@tensorflow/tfjs, @tensorflow-models/toxicity)
+
+📥 1. Clone & Install
 # Clone the repository
-git clone [https://github.com/your-username/privyai-chat.git](https://github.com/your-username/privyai-chat.git)
+git clone https://github.com/sudhanshu260/PrivyAIChat.git
 
-# Navigate into the project directory
-cd privyai-chat
+# Move into the project
+cd PrivyAIChat
 
-# Install all the project dependencies
+# Install dependencies
 npm install
 
+🔧 2. Configure Firebase
+Step 1: Create a Firebase Project
 
-2. Set Up Firebase
+Go to Firebase Console
 
-This is the most important step. The app will not run without a valid Firebase project.
+Click Add Project → choose a name (example: PrivyAIChat)
 
-Go to the Firebase Console.
+After project creation, click the Web App (</>) icon
 
-Click "+ Add project" and give it a name (e.g., "PrivyAI Chat").
+Register your app → you will receive firebaseConfig
 
-Once your project is created, click the Web icon (</>) to register a new web app.
-
-Give it a nickname (e.g., "Web App") and click "Register app".
-
-Firebase will show you a firebaseConfig object. Copy this object.
-
-// Example config
+Example:
 const firebaseConfig = {
-  apiKey: "AIzaSy...YOUR_API_KEY",
-  authDomain: "privyai-chat-123.firebaseapp.com",
-  projectId: "privyai-chat-123",
-  storageBucket: "privyai-chat-123.appspot.com",
-  messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:abcd..."
+  apiKey: "AIzaSy...YOUR_KEY",
+  authDomain: "privyai-chat.firebaseapp.com",
+  projectId: "privyai-chat",
+  storageBucket: "privyai-chat.appspot.com",
+  messagingSenderId: "123456",
+  appId: "1:123456:web:abc123"
 };
 
+Step 2: Add config to the project
 
-Open the project in your code editor and find the file: src/firebase.js.
+Replace the placeholder config in: src/firebase.js
 
-Paste your firebaseConfig object into this file, replacing the placeholder.
+🔥 3. Enable Required Firebase Services
+✔ Enable Authentication
 
-3. Enable Firebase Services
+Go to Authentication → Sign-In Method
 
-In the Firebase console for your new project:
+Enable Email/Password
 
-Authentication:
+✔ Enable Firestore
 
-Go to Authentication (from the "Build" menu).
+Go to Firestore Database
 
-Click the "Sign-in method" tab.
+Click Create Database
 
-Click on "Email/Password" and Enable it. Click Save.
+Select Start in test mode (for development)
 
-Firestore Database:
-
-Go to Firestore Database (from the "Build" menu).
-
-Click "Create database".
-
-Select "Start in test mode". (This is fine for development).
-
-Choose a location and click Enable.
-
-4. Run the App
-
-You are all set! Now, run the local development server:
-
+▶️ 4. Run the App
 npm run dev
 
+🔐 How It Works (Security Overview)
+✔ End-to-End Encryption
+1. Room Creation
 
-Your terminal will show you a local URL. Open it in your browser:
+User gets:
 
-➜ Local: http://localhost:5173/
+roomId
 
-You can now create an account, start a chat room, and test the E2EE and AI features.
+secretKey
 
-How It Works
+2. Key Derivation
 
-End-to-End Encryption (E2EE)
+The secretKey is converted into a strong AES key using:
+PBKDF2 + SHA-256 + 100,000 iterations
 
-When a user creates a room, they are given a roomId (public) and a secretKey (private).
+This key:
 
-The secretKey is a simple password. We use PBKDF2 to derive a strong, unguessable CryptoKey from it.
+never leaves the browser
 
-This CryptoKey never leaves the user's browser.
+is not stored on Firebase
 
-When sending a message, the text is encrypted with AES-GCM using this CryptoKey.
+is not shared with the server
 
-The encrypted text (ciphertext) is sent to Firebase.
+3. Sending a Message
+Plaintext → Encrypt → AES-GCM ciphertext → Firestore
 
-When receiving a message, the ciphertext is downloaded, decrypted with the same CryptoKey, and then displayed.
+4. Receiving a Message
 
-Result: The Firebase database only contains unreadable, encrypted gibberish.
+Ciphertext → Decrypt (local) → Display in UI
+📁 Project Structure
 
-AI Security
+src/
+│── components/
+│── firebase/
+│── utils/
+│── ai/
+│── styles/
+│── App.jsx
+│── main.jsx
 
-The TensorFlow.js toxicity model is loaded directly into the user's browser.
 
-After a message is received and decrypted (as seen above), the plain text is passed to the AI model.
+🙌 Contributions
 
-The model analyzes the text locally for threats, toxicity, etc.
+PRs and suggestions are welcome!
 
-If a threat is found, a warning icon is displayed next to the message.
+📜 License
 
-Result: No private, decrypted data is ever sent to a third-party server for analysis, preserving the E2EE promise.
+MIT License
