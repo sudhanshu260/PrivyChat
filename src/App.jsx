@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { auth, onAuthStateChanged, signInWithCustomToken } from './firebase';
+import { auth, onAuthStateChanged, signOut } from './firebase';
 
 import AuthPage from './components/AuthPage';
 import MenuPage from './components/MenuPage';
@@ -13,7 +13,11 @@ import Loading from './components/common/Loading';
 function App() {
     const [page, setPage] = useState('loading'); // loading, auth, menu, room
     const [user, setUser] = useState(null);
-    const [roomInfo, setRoomInfo] = useState({ roomId: null, secretKey: null, isNewRoom: false });
+    const [roomInfo, setRoomInfo] = useState({
+        roomId: null,
+        secretKey: null,
+        isNewRoom: false
+    });
 
     // Handle Firebase Auth state
     useEffect(() => {
@@ -27,9 +31,6 @@ function App() {
                 setUser(currentUser);
                 setPage('menu');
             } else {
-                // In a local env, we don't have __initial_auth_token.
-                // We'll just go to the auth page.
-                // If you were to implement token auth, you'd check for it here.
                 setPage('auth');
             }
         });
@@ -56,15 +57,35 @@ function App() {
         setRoomInfo({ roomId: null, secretKey: null, isNewRoom: false });
     };
 
+    // Global Logout Handler (Option C)
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            setPage('auth');
+            setUser(null);
+        } catch (err) {
+            console.error("Error signing out:", err);
+        }
+    };
+
     // Page router
     const renderPage = () => {
         switch (page) {
             case 'loading':
-                return <Loading text="Loading Secure Chat..." />;
+                return <Loading text="Loading PrivyChat..." />;
+
             case 'auth':
                 return <AuthPage onAuthSuccess={handleAuthSuccess} />;
+
             case 'menu':
-                return <MenuPage user={user} onCreate={handleCreateRoom} onJoin={handleJoinRoom} />;
+                return (
+                    <MenuPage
+                        user={user}
+                        onCreate={handleCreateRoom}
+                        onJoin={handleJoinRoom}
+                    />
+                );
+
             case 'room':
                 return (
                     <ChatRoomPage
@@ -73,14 +94,18 @@ function App() {
                         secretKey={roomInfo.secretKey}
                         onLeave={handleLeaveRoom}
                         isNewRoom={roomInfo.isNewRoom}
+                        onJoin={handleJoinRoom}
+                        onLogout={handleLogout} // Added for inbox accept → auto join
                     />
                 );
+
             case 'error':
                 return (
                     <div className="min-h-screen flex items-center justify-center">
                         <p className="text-2xl text-red-500">Error: Could not initialize app.</p>
                     </div>
                 );
+
             default:
                 return (
                     <div className="min-h-screen flex items-center justify-center">
@@ -92,6 +117,9 @@ function App() {
 
     return (
         <div className="min-h-screen bg-gray-900">
+
+          
+
             {renderPage()}
         </div>
     );
