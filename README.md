@@ -50,10 +50,10 @@ AI	TensorFlow.js (@tensorflow/tfjs, @tensorflow-models/toxicity)
 
 📥 1. Clone & Install
 # Clone the repository
-git clone https://github.com/sudhanshu260/PrivyAIChat.git
+git clone https://github.com/sudhanshu260/PrivyChat.git
 
 # Move into the project
-cd PrivyAIChat
+cd PrivyChat
 
 # Install dependencies
 npm install
@@ -63,7 +63,7 @@ Step 1: Create a Firebase Project
 
 Go to Firebase Console
 
-Click Add Project → choose a name (example: PrivyAIChat)
+Click Add Project → choose a name (example: PrivyChat)
 
 After project creation, click the Web App (</>) icon
 
@@ -72,9 +72,9 @@ Register your app → you will receive firebaseConfig
 Example:
 const firebaseConfig = {
   apiKey: "AIzaSy...YOUR_KEY",
-  authDomain: "privyai-chat.firebaseapp.com",
-  projectId: "privyai-chat",
-  storageBucket: "privyai-chat.appspot.com",
+  authDomain: "privy-chat.firebaseapp.com",
+  projectId: "privy-chat",
+  storageBucket: "privy-chat.appspot.com",
   messagingSenderId: "123456",
   appId: "1:123456:web:abc123"
 };
