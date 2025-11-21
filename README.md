@@ -1,6 +1,6 @@
-🚀 PrivyAI Chat
+🚀 PrivybChat
 
-PrivyAI Chat is an AI-powered, end-to-end encrypted (E2EE) messaging platform built with React, Vite, and Firebase.
+Privy Chat is an end-to-end encrypted (E2EE) messaging platform built with React, Vite, and Firebase.
 It ensures complete privacy by encrypting all messages before they leave the user’s device—meaning even Firebase only stores unreadable ciphertext.
 
 All decryption and AI safety checks happen locally in the browser, preserving user privacy while still providing intelligent threat detection.
@@ -38,23 +38,7 @@ The Secret Key
 
 Shows how many users are currently active in the chat room.
 
-🤖 6. Client-Side AI Threat Detection
 
-Uses TensorFlow.js toxicity model.
-
-Analyzes messages after decryption (locally).
-
-Warns users about:
-
-Toxic messages
-
-Insults
-
-Threats
-
-Identity attacks
-
-No decrypted data ever leaves the browser.
 
 🧰 Tech Stack
 Area	Technology
